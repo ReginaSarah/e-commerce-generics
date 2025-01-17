@@ -10,8 +10,6 @@ function Usuario() {
 
   const navigateTo = useNavigate();
 
-  const [usuario, setUsuario] = useState([]);
-
   const { id } = useParams()
 
   let [inputNome, setNome] = useState("")
@@ -22,7 +20,6 @@ function Usuario() {
 
   async function buscarUsuarioPorId(id) {
     const result = await api.get("/buscarPorId/" + id);
-    console.log(result);
     setNome(result.data.nome);
     setEmail(result.data.email);
     setCpf(result.data.cpf);

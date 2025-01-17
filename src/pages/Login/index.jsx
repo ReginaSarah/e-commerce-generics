@@ -15,7 +15,9 @@ function Login() {
       email: inputEmail.current.value,
       senha: inputSenha.current.value,
     });
-    navigateTo("/usuarios", token)
+    console.log(token);
+    localStorage.setItem('token', token.data);
+    navigateTo("/usuarios")
   }
 
   useEffect(() => {

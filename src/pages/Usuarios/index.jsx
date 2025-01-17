@@ -22,19 +22,16 @@ function Home() {
   }
 
   async function redirecionarEdicao(usuario) {
-    console.log(usuario)
     navigateTo("/usuario/" + usuario.id)
   }
 
   async function deletarUsuario() {
-    console.log(itemSelecionado)
     await api.delete("/excluirPorCpf/" + itemSelecionado.cpf)
     fecharModal()
     getUsuarios()
   }
 
   const abrirModal = (item) => {
-    console.log(item);
     setItemSelecionado(item);
     setOpenModal(true);
   };
