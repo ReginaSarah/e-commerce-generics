@@ -12,15 +12,37 @@ function Home() {
 
   const [usuarios, setUsuarios] = useState([]);
 
+  const [openModal, setOpenModal] = useState(false);
+  const [itemSelecionado, setItemSelecionado] = useState(null);
+
   async function getUsuarios() {
     const result = await api.get("/listarUsuarios");
     setUsuarios(result.data);
+    setOpenModal
   }
 
   async function redirecionarEdicao(usuario) {
     console.log(usuario)
     navigateTo("/usuario/" + usuario.id)
   }
+
+  async function deletarUsuario() {
+    console.log(itemSelecionado)
+    await api.delete("/excluirPorCpf/" + itemSelecionado.cpf)
+    fecharModal()
+    getUsuarios()
+  }
+
+  const abrirModal = (item) => {
+    console.log(item);
+    setItemSelecionado(item);
+    setOpenModal(true);
+  };
+
+  const fecharModal = () => {
+    setOpenModal(false);
+    setItemSelecionado(null);
+  };
 
   useEffect(() => {
     getUsuarios()
@@ -37,8 +59,13 @@ function Home() {
           </div>
           <div className='icon'>
             <button name='up' onClick={() => redirecionarEdicao(user)}><CircumIcon name="edit" color="#FFF" size="20px" /></button>
-            <Modal />
-            <CircumIcon name="trash" color="#FFF" size="20px" />
+
+            <button onClick={() => abrirModal(user)} ><CircumIcon name="trash" color="#FFF" size="20px" /></button>
+            <Modal isOpen={openModal} >
+              <h5>Deseja realmente excluir este usuário?</h5>
+              <button id="fechar-modal" onClick={() => fecharModal(false)}>Não</button>
+              <button id="fechar-modal" onClick={deletarUsuario}>Sim</button>
+            </Modal>
           </div>
 
         </div>
